@@ -1,0 +1,85 @@
+:root {
+  --bg: #f6f6f8;
+  --card: #ffffff;
+  --text: #16161d;
+  --muted: #6b6b78;
+  --border: #e2e2e8;
+  --accent: #4f46e5;
+  --accent-text: #ffffff;
+  --err: #c62828;
+  color-scheme: light dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0b0b0f;
+    --card: #15151c;
+    --text: #ececf1;
+    --muted: #9a9aa8;
+    --border: #2a2a35;
+    --accent: #7c74ff;
+    --err: #ff6b6b;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+main { max-width: 560px; margin: 0 auto; padding: 56px 16px; }
+h1 { margin: 0; font-size: 28px; }
+.sub { color: var(--muted); margin: 6px 0 0; font-size: 14px; }
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+  margin-top: 24px;
+  display: grid;
+  gap: 16px;
+}
+label { display: grid; gap: 6px; font-size: 14px; }
+.lbl { font-size: 14px; display: block; margin-bottom: 6px; }
+input, button { font: inherit; color: inherit; }
+input[type="password"], input[type="number"] {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+.drop {
+  border: 2px dashed var(--border);
+  border-radius: 10px;
+  padding: 24px;
+  text-align: center;
+  cursor: pointer;
+  color: var(--muted);
+  word-break: break-all;
+}
+.drop input { display: none; }
+.days { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.days button, .link button {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 9px 14px;
+  cursor: pointer;
+}
+.days button.on { border-color: var(--accent); color: var(--accent); font-weight: 600; }
+.custom { display: flex; align-items: center; gap: 6px; grid: none; }
+.custom input { width: 80px; padding: 9px 10px; }
+.primary {
+  background: var(--accent);
+  color: var(--accent-text);
+  border: 0;
+  border-radius: 10px;
+  padding: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.primary:disabled { opacity: 0.6; cursor: default; }
+.err { color: var(--err); margin: 0; font-size: 14px; }
+.link { display: flex; gap: 8px; align-items: center; }
+.link a { flex: 1; min-width: 0; color: var(--accent); word-break: break-all; font-size: 14px; }
+.result { gap: 4px; }
