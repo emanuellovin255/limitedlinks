@@ -7,10 +7,7 @@ export async function POST(request: Request) {
     const result = await handleUpload({
       body,
       request,
-      onBeforeGenerateToken: async (_pathname, clientPayload) => {
-        if (!process.env.UPLOAD_PASSWORD || clientPayload !== process.env.UPLOAD_PASSWORD) {
-          throw new Error("Parolă greșită");
-        }
+      onBeforeGenerateToken: async () => {
         return {
           addRandomSuffix: true,
           maximumSizeInBytes: 200 * 1024 * 1024,

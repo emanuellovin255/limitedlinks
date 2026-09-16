@@ -7,7 +7,7 @@
 1. `npx vercel` în acest folder (sau push pe GitHub + Import în Vercel).
 2. Vercel → proiect → **Storage** → **Create** → **Blob**, cu acces **Private**, apoi leagă-l de proiect
    (setează automat `BLOB_READ_WRITE_TOKEN`).
-3. **Settings → Environment Variables**: `UPLOAD_PASSWORD` (parola ta de upload) și `CRON_SECRET` (un șir lung aleator).
+3. **Settings → Environment Variables**: `CRON_SECRET` (un șir lung aleator).
 4. Redeploy (`npx vercel --prod`).
 
 ## Local

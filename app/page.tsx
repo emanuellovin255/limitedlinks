@@ -8,7 +8,6 @@ type Result = { url: string; expiresAt: string; files: number };
 const PRESETS = [3, 7];
 
 export default function Home() {
-  const [password, setPassword] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [days, setDays] = useState(7);
   const [status, setStatus] = useState<string | null>(null);
@@ -28,21 +27,19 @@ export default function Home() {
       const blob = await upload(`uploads/${file.name}`, file, {
         access: "private",
         handleUploadUrl: "/api/upload-token",
-        clientPayload: password,
         onUploadProgress: ({ percentage }) => setStatus(`Se încarcă ZIP-ul… ${Math.round(percentage)}%`),
       });
       setStatus("Se publică site-ul…");
       const res = await fetch("/api/publish", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ password, zipUrl: blob.url, days }),
+        body: JSON.stringify({ zipUrl: blob.url, days }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "Eroare");
       setResult(data);
     } catch (err) {
-      const msg = (err as Error).message;
-      setError(msg.includes("Parol") || msg.includes("token") ? "Parolă greșită" : msg);
+      setError((err as Error).message);
     } finally {
       setStatus(null);
     }
@@ -60,11 +57,6 @@ export default function Home() {
       <p className="sub">Încarci un ZIP cu site-ul, primești un link care expiră singur.</p>
 
       <form onSubmit={submit} className="card">
-        <label>
-          Parolă
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-        </label>
-
         <label className="drop">
           <input
             type="file"

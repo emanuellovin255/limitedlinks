@@ -10,11 +10,8 @@ export const maxDuration = 60;
 const newId = customAlphabet("abcdefghijklmnopqrstuvwxyz0123456789", 24);
 
 export async function POST(request: Request) {
-  const { password, zipUrl, days } = await request.json();
+  const { zipUrl, days } = await request.json();
 
-  if (!process.env.UPLOAD_PASSWORD || password !== process.env.UPLOAD_PASSWORD) {
-    return NextResponse.json({ error: "Parolă greșită" }, { status: 401 });
-  }
   const d = Number(days);
   if (!Number.isInteger(d) || d < 1 || d > 365) {
     return NextResponse.json({ error: "Număr de zile invalid (1–365)" }, { status: 400 });
