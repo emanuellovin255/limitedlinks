@@ -1,6 +1,6 @@
 "use client";
 
-import { upload } from "@vercel/blob/client";
+import { uploadPresigned } from "@vercel/blob/client";
 import { useState } from "react";
 
 type Result = { url: string; expiresAt: string; files: number };
@@ -24,7 +24,7 @@ export default function Home() {
     setCopied(false);
     try {
       setStatus("Se încarcă ZIP-ul…");
-      const blob = await upload(`uploads/${file.name}`, file, {
+      const blob = await uploadPresigned(`uploads/${Date.now()}.zip`, file, {
         access: "private",
         handleUploadUrl: "/api/upload-token",
         onUploadProgress: ({ percentage }) => setStatus(`Se încarcă ZIP-ul… ${Math.round(percentage)}%`),

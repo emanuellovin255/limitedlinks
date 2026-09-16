@@ -1,17 +1,26 @@
-import { handleUpload, type HandleUploadBody } from "@vercel/blob/client";
+import { issueSignedToken } from "@vercel/blob";
+import { handleUploadPresigned, type HandleUploadPresignedBody } from "@vercel/blob/client";
 import { NextResponse } from "next/server";
 
+const MAX_SIZE = 200 * 1024 * 1024;
+
 export async function POST(request: Request) {
-  const body = (await request.json()) as HandleUploadBody;
+  const body = (await request.json()) as HandleUploadPresignedBody;
   try {
-    const result = await handleUpload({
+    const result = await handleUploadPresigned({
       body,
       request,
-      onBeforeGenerateToken: async () => {
-        return {
-          addRandomSuffix: true,
-          maximumSizeInBytes: 200 * 1024 * 1024,
-        };
+      getSignedToken: async (pathname) => {
+        if (!pathname.startsWith("uploads/") || !pathname.toLowerCase().endsWith(".zip")) {
+          throw new Error("Doar fișiere .zip");
+        }
+        const token = await issueSignedToken({
+          pathname,
+          operations: ["put"],
+          maximumSizeInBytes: MAX_SIZE,
+          validUntil: Date.now() + 15 * 60_000,
+        });
+        return { token, urlOptions: { addRandomSuffix: true, maximumSizeInBytes: MAX_SIZE } };
       },
     });
     return NextResponse.json(result);
